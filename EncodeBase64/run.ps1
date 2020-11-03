@@ -10,33 +10,33 @@ param($Request, $TriggerMetadata)
 Write-Host "EncodeBase64 function processed a request."
 
 # Interact with query parameters or the body of the request.
-$name = $Request.Query.Text
-if (-not $name) {
-    $name = $Request.Body.Name
+$Name = $Request.Query.Text
+if (-not $Name) {
+    # if no parameter indicate this in response
+    $Name = $Request.Body.Name
     $body = "Trigger executed successfully. No function parameter passed."
     $StatusCode = [System.Net.HttpStatusCode]::OK
 }
 
-<#
-Example exuection:
-http://localhost:7071/api/EncodeBase64?Text=christian
-#>
-
-if ($name) {
+if ($Name) {
     try {
-        $Bytes = [System.Text.Encoding]::Unicode.GetBytes($name)
+        # pass parameter and encode
+        $Bytes = [System.Text.Encoding]::Unicode.GetBytes($Name)
+        # populate hashtable
         $OutputTable = [PSCustomObject]@{
-            PlaintextString = $name
+            PlaintextString = $Name
             EncodedOutput = $([System.Convert]::ToBase64String($Bytes))
         }
-        #$Body = $OutputTable
-        
-        $Body = "Encoded parameter $($name) to Base64 = $([System.Convert]::ToBase64String($Bytes))"
+
+        # write out encoded value to body
+        $Body = "Encoded parameter $($Name) to Base64 : $([System.Convert]::ToBase64String($Bytes))"
+        # return 200
         $StatusCode = [System.Net.HttpStatusCode]::OK
     }
     catch {
-        Write-Error "Failed to encode."
-        $Body = "Failed to encode $($name)"
+        $Error[0]
+        Write-Error "Execution failed: $_"
+        $Body = "$_"
         $StatusCode = [HttpStatusCode]::BadRequest
     }
 }

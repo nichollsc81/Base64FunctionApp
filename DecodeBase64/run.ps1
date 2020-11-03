@@ -16,18 +16,24 @@ Write-Host "DecodeBase64 function processed a request."
 
 $Name = $Request.Query.Text
 if (-not $Name) {
+    # if no parameter indicate this in response
     $Name = $Request.Body.Name
     $body = "Trigger executed successfully. No function parameter passed."
     $StatusCode = [System.Net.HttpStatusCode]::OK
 }
 
 if ($Name) {
+    # pass variable
     $EncodedText = $Name
 
     try {
+        # decode parameter
         $DecodedBytes = [System.Convert]::FromBase64String($EncodedText)
+        # decoded bytes to plain string
         $Decoded = $([System.Text.Encoding]::Unicode.GetString($DecodedBytes))
-        $Body = "Decoded parameter $($name) from Base64 = $($Decoded)"
+        # write out decoded value to body
+        $Body = "Decoded parameter $($Name) from Base64 : $($Decoded)"
+        # return 200
         $StatusCode = [System.Net.HttpStatusCode]::OK
     }
     catch {

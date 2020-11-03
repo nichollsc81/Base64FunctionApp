@@ -32,7 +32,7 @@ if (-not $Count) {
 else {
     try {
         # generate a number of password from count parameter
-        $Pws = Get-RandomPassword -PasswordLength $Len -Count $Count
+        $Pws = Get-RandomPassword -PasswordLength $Len -NoOfPasswords $Count
 
         # write them into the web page body and return 200
         $Body = $Pws | % { "$($_.PasswordId): $($_.PasswordValue)" }
