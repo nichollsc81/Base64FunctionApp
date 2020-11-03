@@ -22,21 +22,20 @@ if (-not $Name) {
 }
 
 if ($Name) {
-        $EncodedText = $Name
+    $EncodedText = $Name
+
+    try {
         $DecodedBytes = [System.Convert]::FromBase64String($EncodedText)
-        $OutputTable = [PSCustomObject]@{
-            EncodedString = $Name
-            DecodedOutput = $([System.Text.Encoding]::Unicode.GetString($DecodedBytes))
-        }
-        #$Body = $OutputTable
-
-        $Body = "Decoded string $($Name) from Base64:: $([System.Text.Encoding]::Unicode.GetString($DecodedBytes))"
+        $Decoded = $([System.Text.Encoding]::Unicode.GetString($DecodedBytes))
+        $Body = "Decoded parameter $($name) from Base64 = $($Decoded)"
         $StatusCode = [System.Net.HttpStatusCode]::OK
-
-        if($LASTEXITCODE -ne 0) {
-            $Body = "Execution failed."
-            $StatusCode = [HttpStatusCode]::BadRequest
-        }
+    }
+    catch {
+        $Error[0]
+        Write-Error "Execution failed: $_"
+        $Body = "$_"
+        $StatusCode = [HttpStatusCode]::BadRequest
+    }
 }
 
 # Associate values to output bindings by calling 'Push-OutputBinding'.

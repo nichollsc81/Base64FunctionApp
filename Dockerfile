@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/azure-functions/powershell:3.0-powershell${VARIANT}-core-
 # set runtime folder
 ENV FuncAppRoot=/home/base64functionapp
 
-# copy project contents into env root
+# copy project contents into env rootsett
 COPY . ${FuncAppRoot}
 
 # set location

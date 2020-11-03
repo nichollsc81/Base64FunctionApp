@@ -31,7 +31,7 @@ if ($name) {
         }
         #$Body = $OutputTable
         
-        $Body = "Encoded parameter $($name) to Base64:: $([System.Convert]::ToBase64String($Bytes))"
+        $Body = "Encoded parameter $($name) to Base64 = $([System.Convert]::ToBase64String($Bytes))"
         $StatusCode = [System.Net.HttpStatusCode]::OK
     }
     catch {
