@@ -3,12 +3,6 @@ using namespace System.Net
 # Input bindings are passed in via param block.
 param($Request, $TriggerMetadata)
 
-<#
-Example exuection:
-http://localhost:7071/api/GenerateStrongPassword
-http://localhost:7071/api/GenerateStrongPassword?Count=1
-#>
-
 # Write to the Azure Functions log stream.
 Write-Host "GenerateStrongPassword function processed a request."
 
@@ -19,8 +13,26 @@ $Count = $Request.Query.Count
 
 # password length
 $Len = $Request.Query.Length
-if (-not $Len) {
-    $Len = 18
+# length if not supplied is 1 so need to handle that
+if ($Len -le 1) {
+    # if no length parameter supplied default to 18
+    Write-Host "Setting min length."
+    $Len = '18'
+}
+elseif ($Len -gt 24) {
+    # handle silly password lengths
+    Write-Host "Stipulated length too long."
+    $Body = "Stipuldated length $($Len) too long. Ensure 24 characters or less or less."
+
+    Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
+        StatusCode = [System.Net.HttpStatusCode]::BadRequest
+        Body = $Body
+    })
+    # exit cleanly
+    Exit(0)
+}
+else {
+    Write-Host "Detected a length"
 }
 
 # if no count supplied iterate once
@@ -29,7 +41,7 @@ if (-not $Count) {
     $Pw = Get-RandomPassword -PasswordLength $Len
 
     # write result to web page and return 200
-    $Body = "Secure password $($Ps.PasswordId): $(($Pw).PasswordValue)"
+    $Body = "$(($Pw).PasswordValue)"
     $StatusCode = [System.Net.HttpStatusCode]::OK
 }
 else {
@@ -38,7 +50,7 @@ else {
         $Pws = Get-RandomPassword -PasswordLength $Len -NoOfPasswords $Count
 
         # write them into the web page body and return 200
-        $Body = $Pws | % { "$($_.PasswordId): $($_.PasswordValue)" }
+        $Body = $Pws | % { "$($_.PasswordValue)" }
         $StatusCode = [System.Net.HttpStatusCode]::OK
     }
     catch {
