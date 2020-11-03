@@ -12,7 +12,7 @@ $PublishPort = '7071'
 $a = iwr "http://localhost:$($PublishPort)/api/EncodeBase64?Text=$($Param)"
 
 # if successful
-if(($a.StatusCode) -eq 200) {
+if (($a.StatusCode) -eq 200) {
 
     # show encoded value
     $Encoded = $A.Content
@@ -23,8 +23,8 @@ if(($a.StatusCode) -eq 200) {
     # capture what we've done. PlainText and Decoded shoudl match!
     $TestResult = [PSCustomObject]@{
         PlainTextString = $Param
-        EncodedString = $Encoded
-        DecodedString = $Decoded
+        EncodedString   = $Encoded
+        DecodedString   = $Decoded
     }
     $TestResult
 }
