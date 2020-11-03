@@ -9,7 +9,7 @@
     }
   },
   "managedDependency": {
-    "enabled": false
+    "enabled": true
   },
   "extensionBundle": {
     "id": "Microsoft.Azure.Functions.ExtensionBundle",

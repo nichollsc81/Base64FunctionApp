@@ -4,4 +4,5 @@
 @{
     # For latest supported version, go to 'https://www.powershellgallery.com/packages/Az'. 
     'Az' = '5.*'
+    'RandomPasswordGenerator' = '1.*'
 }
