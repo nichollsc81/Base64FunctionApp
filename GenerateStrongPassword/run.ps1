@@ -18,7 +18,10 @@ Import-Module RandomPasswordGenerator -Verbose
 $Count = $Request.Query.Count
 
 # password length
-$Len = 18
+$Len = $Request.Query.Length
+if (-not $Len) {
+    $Len = 18
+}
 
 # if no count supplied iterate once
 if (-not $Count) {
