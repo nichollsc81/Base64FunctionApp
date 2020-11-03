@@ -9,7 +9,7 @@ docker build -t base64functionapp:latest .
 
 Run function app bound to localhost port 8080
 ```sh
-docker run --rm -p 8080:7071 -d base64functionapp:latest
+docker run --rm -p 8080:7071 -d base64functionapp:v7
 ```
 <br>
 
@@ -17,7 +17,7 @@ docker run --rm -p 8080:7071 -d base64functionapp:latest
 
 Encode a string:
 ```
-$a = iwr http://localhost:8080/api/EncodeBase64?Text=ThisIsATestString
+$a = iwr http://localhost:8088/api/EncodeBase64?Text=ThisIsATestString
 $a.Content | ConvertFrom-Json
 ```
 
@@ -39,3 +39,7 @@ $d = iwr http://localhost:8080/api/GenerateStrongPassword?Count=2&Length=8
 $d.Content | ConvertFrom-Json
 
 ```
+
+## Demo
+
+A demo file for building an image, spawning a container and chaining 2 functions is available [here](demo.ps1).

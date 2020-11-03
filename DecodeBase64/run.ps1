@@ -32,9 +32,11 @@ if ($Name) {
         # decoded bytes to plain string
         $Decoded = $([System.Text.Encoding]::Unicode.GetString($DecodedBytes))
         # write out decoded value to body
-        $Body = "Decoded parameter $($Name) from Base64 : $($Decoded)"
+        $Body = $Decoded
         # return 200
         $StatusCode = [System.Net.HttpStatusCode]::OK
+
+        Write-Host "String decoded."
     }
     catch {
         $Error[0]

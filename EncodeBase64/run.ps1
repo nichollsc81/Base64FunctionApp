@@ -29,9 +29,11 @@ if ($Name) {
         }
 
         # write out encoded value to body
-        $Body = "Encoded parameter $($Name) to Base64 : $([System.Convert]::ToBase64String($Bytes))"
+        $Body = $([System.Convert]::ToBase64String($Bytes))
         # return 200
         $StatusCode = [System.Net.HttpStatusCode]::OK
+
+        Write-Host "String encoded."
     }
     catch {
         $Error[0]

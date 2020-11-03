@@ -1,4 +1,4 @@
-ARG VARIANT=6
+ARG VARIANT=7
 FROM mcr.microsoft.com/azure-functions/powershell:3.0-powershell${VARIANT}-core-tools
 
 # set runtime folder
