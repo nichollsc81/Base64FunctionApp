@@ -36,7 +36,7 @@ if ($Name) {
         # return 200
         $StatusCode = [System.Net.HttpStatusCode]::OK
 
-        Write-Host "String decoded."
+        Write-Host "Decoded Base64 string $($EncodedText) to $($Body)"
     }
     catch {
         $Error[0]
