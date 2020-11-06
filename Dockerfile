@@ -1,8 +1,9 @@
-ARG VARIANT=7
-FROM mcr.microsoft.com/azure-functions/powershell:3.0-powershell${VARIANT}-core-tools
+ARG VARIANT=3.0-powershell7-core-tools
+FROM mcr.microsoft.com/azure-functions/powershell:${VARIANT}
 
 # set runtime folder
-ENV FuncAppRoot=/home/base64functionapp
+ENV FuncAppRoot /home/base64functionapp
+ENV AzureFunctionsJobHost__Logging__Console__IsEnabled=true
 
 # copy project contents into env rootsett
 COPY . ${FuncAppRoot}
@@ -11,4 +12,6 @@ COPY . ${FuncAppRoot}
 WORKDIR ${FuncAppRoot}
 
 # start function
-CMD ["pwsh","-command","func start --verbose"]
+#ENTRYPOINT ["pwsh", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+#CMD ["pwsh","-command","func start --powershell -p $env:RUN_TIME_PORT"]
+CMD ["pwsh","-command","func start --powershell"]
