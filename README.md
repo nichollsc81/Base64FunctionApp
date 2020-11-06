@@ -7,9 +7,9 @@ docker build -t base64functionapp:latest .
 
 ## To run
 
-Run function app bound to localhost port 8080
+Run function app bound to localhost port 62001
 ```sh
-docker run --rm -p 8080:7071 -d base64functionapp:v7
+docker run --rm -p 62001:7071 base64functionapp:latest
 ```
 <br>
 

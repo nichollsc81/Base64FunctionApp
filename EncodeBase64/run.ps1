@@ -33,7 +33,7 @@ if ($Name) {
         # return 200
         $StatusCode = [System.Net.HttpStatusCode]::OK
 
-        Write-Host "String encoded."
+        Write-Host "Encoded string: $($Name) to $($Body)"
     }
     catch {
         $Error[0]
